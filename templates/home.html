@@ -1,0 +1,257 @@
+
+{% include "header.html" %}
+
+{% block body %}
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h4>Risk Assessment for Application Migration</h4>
+            </div>
+
+            <ul class="list-unstyled components">
+                <li class="active">
+                     <a class="nav-link" href="{{ url_for('home_admin') }}">Home</a>
+                </li>
+                <li>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Master Data</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a class="nav-link" href="{{ url_for('index_asset') }}">List of Assets</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('index_threat') }}">List of Threat</a>
+                        </li>
+                        <li>
+                          <a class="nav-link" href="{{ url_for('index') }}">List of Vulnerability</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#mapping" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Mapping Data</a>
+                    <ul class="collapse list-unstyled" id="mapping">
+                        <li>
+                          <a class="nav-link" href="{{ url_for('index_vulnerability_avg') }}">Vulnerability to Threat</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('index_app_threat') }}">Threat to Assets</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                     <a class="nav-link" href="{{ url_for('index_calculate_aset') }}">Calculate Asset weight</a>
+                </li>
+                <li>
+                    <a href="#riskSubMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Risk Assesment</a>
+                    <ul class="collapse list-unstyled" id="riskSubMenu">
+                        <li>
+                            <a href="#before" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Before Migration</a>
+                            <ul class="collapse list-unstyled" id="before">
+                                <li>
+                                    <a class="nav-link" href="{{ url_for('index_before_migrating') }}">Research</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="{{ url_for('index_admin_shareeful') }}">Shareeful</a>
+                                </li>
+                                <li>
+                                    <a class="nav-link" href="{{ url_for('index_admin_kozlov') }}">Kozlov</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('index_during_migration') }}">During Migration</a>
+                        </li>
+                        <li>
+                            <a class="nav-link" href="{{ url_for('index_after_migration') }}">After Migration</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                     <a class="nav-link" href="{{ url_for('index_perbandingan') }}">Value Comparison</a>
+                </li>
+                <li>
+                     <a class="nav-link" href="{{ url_for('index_report') }}">Report</a>
+                </li>
+                <li>
+                     <a class="nav-link" href="{{ url_for('logout_admin') }}">Logout</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                        <span>Toggle Sidebar</span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fas fa-align-justify"></i>
+                    </button>
+                </div>
+            </nav>
+
+                  <div class="main-content">
+        <section class="section">
+          <h1 class="section-header">
+            <div>Dashboard</div>
+          </h1>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="card card-sm-3">
+                <div class="card-icon bg-primary">
+                  <i class="ion ion-person"></i>
+                </div>
+                <div class="card-wrap">
+                  <div class="card-header">
+                    <h5>Total List of Asset</h5>
+                  </div>
+                  <div class="card-body">
+                      {% print(count_asset) %} Asset
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="card card-sm-3">
+                <div class="card-icon bg-danger">
+                  <i class="ion ion-ios-paper-outline"></i>
+                </div>
+                <div class="card-wrap">
+                  <div class="card-header">
+                    <h5>Total List of Threat</h5>
+                  </div>
+                  <div class="card-body">
+                    {% print(count_threat) %} Threat
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+              <div class="card card-sm-3">
+                <div class="card-icon bg-warning">
+                  <i class="ion ion-paper-airplane"></i>
+                </div>
+                <div class="card-wrap">
+                  <div class="card-header">
+                    <h5>Total List of Vulnerability</h5>
+                  </div>
+                  <div class="card-body">
+                    {% print(count_vuln) %} Vulnerability
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+            <br>
+          <div class="row">
+            <div class="col-lg-6 col-md-12 col-12 col-sm-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Threat to Asset</h4>
+                </div>
+                <div class="card-body">
+                  <canvas id="chartOne" height="158"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-12 col-12 col-sm-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4>Vulnerability to Threat</h4>
+                </div>
+                <div class="card-body">
+                  <canvas id="chartTwo" height="158"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+            </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+    <script>
+  var ctx = document.getElementById("chartTwo").getContext('2d');
+  var chartOne = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [{% for data in threat_data %}
+        "{{ data[0] }}",
+        {% endfor %}],
+    datasets: [{
+        data: [{% for data in final_data %}
+            {{ data }},
+            {% endfor %}],
+        label: "Vulnerability Threat",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Vulnerability to Threat'
+    }
+  }
+});
+  </script>
+
+    <script>
+  var ctx = document.getElementById("chartOne").getContext('2d');
+  var chartTwo = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [{% for data in id_app %}
+        "{{ data[0] }}",
+        {% endfor %}],
+    datasets: [{
+        data: [{% for data in final %}
+            {{ data }},
+            {% endfor %}],
+        label: "Asset Threat",
+        borderColor: "#3e95cd",
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: 'Threat to Asset'
+    }
+  }
+});
+  </script>
+
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+        });
+    </script>
+
+
+
+{% endblock %}
+
+
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
